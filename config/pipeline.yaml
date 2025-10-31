@@ -1,0 +1,27 @@
+engine: duckdb
+threads: 8
+stages:
+  - schemas/staging.sql
+  - schemas/marts.sql
+  - schemas/audit.sql
+  - sql/staging/load_medical_claims.sql
+  - sql/staging/load_rx_claims.sql
+  - sql/staging/load_eligibility.sql
+  - sql/transforms/normalize_claims.sql
+  - sql/transforms/derive_dx_flags.sql
+  - sql/transforms/derive_px_flags.sql
+  - sql/transforms/member_months.sql
+  - sql/transforms/encounters.sql
+  - sql/metrics/cohort_base.sql
+  - sql/metrics/rate_per_1000.sql
+  - sql/metrics/screening_rate.sql
+  - sql/metrics/utilization_rates.sql
+  - sql/metrics/readmission_rate.sql
+  - sql/metrics/complication_rate.sql
+  - sql/metrics/demographics.sql
+  - sql/qc/qc_summary.sql
+
+tests:
+  - sql/tests/test_denominators.sql
+  - sql/tests/test_age_sex_bounds.sql
+  - sql/tests/test_continuous_enrollment.sql

@@ -1,30 +1,10 @@
 roles:
   analyst:
-    schemas:
-      dm:
-      - SELECT
-      audit:
-      - SELECT
-    pii: false
-  phi_admin:
-    schemas:
-      '*':
-      - SELECT
-      - INSERT
-      - UPDATE
-      - DELETE
-      - CREATE
-    pii: true
+    read: [dim_members, norm_medical_claims, norm_rx_claims, cohort_base, metrics_*]
+    write: [scratch_*]
   auditor:
-    schemas:
-      audit:
-      - SELECT
-      dm:
-      - SELECT
-    pii: false
-controls:
-  ip_allowlist:
-  - 10.0.0.0/8
-  - 192.168.0.0/16
-  mfa_required: true
-  data_retention_days: 365
+    read: [*]
+    write: []
+  admin:
+    read: [*]
+    write: [*]
