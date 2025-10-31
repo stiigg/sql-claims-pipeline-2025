@@ -1,0 +1,11 @@
+icd10:
+  hypertension: reference/icd10_hypertension.csv
+  diabetes: reference/icd10_diabetes.csv
+  low_back_pain: reference/icd10_lbp.csv
+cpt:
+  breast_cancer_screening: reference/cpt_mammography.csv
+  cervical_cancer_screening: reference/cpt_cervical.csv
+  colon_cancer_screening: reference/cpt_colon.csv
+auxiliary:
+  nyu_avoidable_er: reference/nyu_avoidable_er.csv
+  ahrq_acsc: reference/ahrq_acsc.csv
