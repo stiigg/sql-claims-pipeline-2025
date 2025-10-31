@@ -1,13 +1,18 @@
+
 # Python
-.venv/
 __pycache__/
 *.pyc
 
-# Local artifacts (audit, metrics, reports can be generated; keep out of repo if containing PHI)
-artifacts/
-reports/
-*.db
-*.duckdb
+# Data artifacts
+artifacts/*
+!artifacts/.gitkeep
+secure_input/
+secure_work/
 
-# OS
-.DS_Store
+# Environments
+.env
+.venv/
+
+# Editors
+.vscode/
+.idea/

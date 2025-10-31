@@ -1,61 +1,68 @@
-meta:
-  version: 1.0.0
-  effective_start: '2024-01-01'
-  effective_end: null
-  maintainer: Analytics Team
-  source_refs:
-  - CDC PHDS 2025
-  - Internal clinical coding policy v3
+version: 1.0.0
+window: {start: 2024-01-01, end: 2024-12-31}
+
 metrics:
-- name: mammogram_rate
-  title: "Annual Screening Mammogram Rate (Women 40\u201374)"
-  domain: screening
-  denominator:
-    population: "Female members age 40\u201374 with eligibility overlapping the measurement\
-      \ period"
-    window:
-      start_param: AS_OF_START
-      end_param: AS_OF_END
-  numerator:
-    definition: At least one screening mammogram CPT
-    code_sets:
-      CPT:
-      - '77067'
-      - '77063'
-    window:
-      start_param: AS_OF_START
-      end_param: AS_OF_END
-  exclusions:
-  - Non-female sex at end of period
-  - Invalid or missing DOB/eligibility dates
-  limitations:
-  - Claims reflect insured/observable populations only
-  - CPT miscoding may under/over-count screenings
-  sql_template: sql/metric_mammogram_rate.sql
-  population_validity: Commercial/observable only; not generalizable to uninsured
-    without adjustment
-- name: diabetes_prevalence
-  title: Diabetes Prevalence (ICD-10)
-  domain: chronic_conditions
-  denominator:
-    population: All eligible members in period
-    window:
-      start_param: AS_OF_START
-      end_param: AS_OF_END
-  numerator:
-    definition: "\u22651 claim with diabetes ICD-10 code"
-    code_sets:
-      ICD10:
-      - E10
-      - E11
-      - E119
-    window:
-      start_param: AS_OF_START
-      end_param: AS_OF_END
-  exclusions:
-  - Missing svc_date or member_id on claims
-  limitations:
-  - Under-detection for individuals not seeking care
-  - Coding variation across providers
-  sql_template: sql/metric_diabetes_prevalence.sql
-  population_validity: Observable insured population
+  hypertension:
+    type: condition_rate_per_1000
+    denom: enrolled_members_18_plus
+    lookback_days: 365
+    age: {min: 18, max: 120}
+    sex: [F, M, U]
+    icd10_include: ["I10%", "I11%", "I12%", "I13%"]
+
+  diabetes:
+    type: condition_rate_per_1000
+    denom: enrolled_members_18_plus
+    lookback_days: 365
+    icd10_include: ["E10%", "E11%"]
+    exclusions: {gestational: ["O24%"]}
+
+  low_back_pain:
+    type: condition_rate_per_1000
+    denom: enrolled_members_18_plus
+    lookback_days: 365
+    icd10_include: ["M54%"]
+
+  breast_cancer_screening:
+    type: screening_rate
+    denom: eligible_female_50_74
+    lookback_days: 730
+    cpt_include: [77067, 77066, 77065]
+
+  cervical_cancer_screening:
+    type: screening_rate
+    denom: eligible_female_21_64
+    lookback_days: 1095
+    cpt_include: [88175, 87624]
+
+  colon_cancer_screening:
+    type: screening_rate
+    denom: eligible_45_75
+    lookback_days: 3650
+    cpt_include: [45378, 82274, 81528]
+
+  er_visit_rate:
+    type: utilization_per_1000
+    where: "encounter_type = 'ER'"
+
+  avoidable_er_rate:
+    type: utilization_per_1000
+    proxy: "dx_group IN ('nonemergent','primary_care_treatable')"
+
+  inpatient_admission_rate:
+    type: utilization_per_1000
+    where: "encounter_type = 'INPATIENT'"
+
+  readmission_rate_30d:
+    type: readmission_30d
+
+  avoidable_admission_rate:
+    type: utilization_per_1000
+    proxy: "prevention_quality_indicator = 1"
+
+  complication_rate:
+    type: event_rate
+    where: "complication_flag = 1"
+
+demographics:
+  include: [avg_age, pct_female, pct_male, total_members]

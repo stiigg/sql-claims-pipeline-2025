@@ -1,0 +1,4 @@
+engine: duckdb
+work_dir: secure_work/
+input_dir: secure_input/
+artifacts_dir: artifacts/
