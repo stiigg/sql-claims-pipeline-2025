@@ -1,0 +1,61 @@
+meta:
+  version: 1.0.0
+  effective_start: '2024-01-01'
+  effective_end: null
+  maintainer: Analytics Team
+  source_refs:
+  - CDC PHDS 2025
+  - Internal clinical coding policy v3
+metrics:
+- name: mammogram_rate
+  title: "Annual Screening Mammogram Rate (Women 40\u201374)"
+  domain: screening
+  denominator:
+    population: "Female members age 40\u201374 with eligibility overlapping the measurement\
+      \ period"
+    window:
+      start_param: AS_OF_START
+      end_param: AS_OF_END
+  numerator:
+    definition: At least one screening mammogram CPT
+    code_sets:
+      CPT:
+      - '77067'
+      - '77063'
+    window:
+      start_param: AS_OF_START
+      end_param: AS_OF_END
+  exclusions:
+  - Non-female sex at end of period
+  - Invalid or missing DOB/eligibility dates
+  limitations:
+  - Claims reflect insured/observable populations only
+  - CPT miscoding may under/over-count screenings
+  sql_template: sql/metric_mammogram_rate.sql
+  population_validity: Commercial/observable only; not generalizable to uninsured
+    without adjustment
+- name: diabetes_prevalence
+  title: Diabetes Prevalence (ICD-10)
+  domain: chronic_conditions
+  denominator:
+    population: All eligible members in period
+    window:
+      start_param: AS_OF_START
+      end_param: AS_OF_END
+  numerator:
+    definition: "\u22651 claim with diabetes ICD-10 code"
+    code_sets:
+      ICD10:
+      - E10
+      - E11
+      - E119
+    window:
+      start_param: AS_OF_START
+      end_param: AS_OF_END
+  exclusions:
+  - Missing svc_date or member_id on claims
+  limitations:
+  - Under-detection for individuals not seeking care
+  - Coding variation across providers
+  sql_template: sql/metric_diabetes_prevalence.sql
+  population_validity: Observable insured population
