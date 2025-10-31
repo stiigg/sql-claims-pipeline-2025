@@ -1,0 +1,16 @@
+rules:
+  - name: eligibility.member_id_missing
+    description: Eligibility records must include member identifiers.
+    sql: |
+      SELECT * FROM eligibility_staged WHERE member_id IS NULL
+  - name: medical.member_not_in_eligibility
+    description: Medical claims must map to an eligible member.
+    sql: |
+      SELECT m.*
+      FROM medical_staged m
+      LEFT JOIN eligibility_staged e USING(member_id)
+      WHERE e.member_id IS NULL
+  - name: rx.ndc_missing
+    description: Pharmacy claims must include NDC codes.
+    sql: |
+      SELECT * FROM rx_staged WHERE ndc IS NULL

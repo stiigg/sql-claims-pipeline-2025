@@ -1,0 +1,57 @@
+global:
+  measurement_start: 2024-01-01
+  measurement_end: 2024-12-31
+  min_continuous_months: 11
+
+metrics:
+  hypertension_per_1000:
+    type: prevalence_per_1000
+    source: flags_dx
+    metric_name: hypertension
+  diabetes_per_1000:
+    type: prevalence_per_1000
+    source: flags_dx
+    metric_name: diabetes
+  low_back_pain_per_1000:
+    type: prevalence_per_1000
+    source: flags_dx
+    metric_name: low_back_pain
+  screening_breast:
+    type: screening_pct
+    metric_name: breast_cancer_screening
+    cohort:
+      sex: F
+      min_age: 50
+      max_age: 74
+      lookback_days: 730
+  screening_cervical:
+    type: screening_pct
+    metric_name: cervical_cancer_screening
+    cohort:
+      sex: F
+      min_age: 21
+      max_age: 64
+      lookback_days: 1095
+  screening_colon:
+    type: screening_pct
+    metric_name: colon_cancer_screening
+    cohort:
+      sex: ANY
+      min_age: 45
+      max_age: 75
+      lookback_days: 3650
+  er_rate_per_1000:
+    type: utilization_per_1000
+    metric_name: er_visit_rate
+  avoidable_er_per_1000:
+    type: utilization_per_1000
+    metric_name: avoidable_er_rate
+  inpatient_admission_per_1000:
+    type: utilization_per_1000
+    metric_name: inpatient_admission_rate
+  avoidable_admission_rate:
+    type: utilization_per_1000
+    metric_name: avoidable_admission_rate
+  readmission_rate_30d:
+    type: readmission_rate
+    metric_name: readmission_rate

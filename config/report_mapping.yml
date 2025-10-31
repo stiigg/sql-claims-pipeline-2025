@@ -1,0 +1,21 @@
+workbook_template: templates/client_template.xlsx
+outputs:
+  Summary:
+    B4: metrics.hypertension_per_1000.rate_per_1000
+    B5: metrics.diabetes_per_1000.rate_per_1000
+    B6: metrics.low_back_pain_per_1000.rate_per_1000
+  Screening:
+    C6: metrics.screening_breast.screening_rate
+    C7: metrics.screening_cervical.screening_rate
+    C8: metrics.screening_colon.screening_rate
+  Utilization:
+    B6: metrics.er_rate_per_1000.rate_per_1000
+    B7: metrics.avoidable_er_per_1000.rate_per_1000
+    B8: metrics.inpatient_admission_per_1000.rate_per_1000
+    B9: metrics.readmission_rate_30d.rate
+    B10: metrics.avoidable_admission_rate.rate_per_1000
+  Demographics:
+    B4: demographics.avg_age
+    B5: demographics.pct_female
+    B6: demographics.pct_male
+    B7: demographics.total_members
